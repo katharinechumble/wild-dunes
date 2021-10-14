@@ -11,14 +11,15 @@ const userController = {
         .then(dbUserData => res.json(dbUserData))
         .catch(err => {
             console.log(err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         })
     },
     getUserById({ params }, res) {
         User.findOne({ _id: params.id })
-        .populate([
-            { path: 'thoughts', select: "-__v"}
-        ])
+        .populate({ 
+            path: 'thoughts', 
+            select: "-__v"
+        })
         .select('-__v')
         .then(dbUserData => {
             if (!dbUserData) {
@@ -57,7 +58,7 @@ const userController = {
                 return;
             }
             User.updateMany(
-                { _id: {$in: dbUserData.friends } },
+                { _id: { $in: dbUserData.friends } },
                 { $pull: { friends: params.id } }
             )
             .then(() => {
@@ -75,7 +76,7 @@ const userController = {
         User.findOneAndUpdate(
             { _id: params.userid },
             { $addToSet: { friends: params.friendId } },
-            { new: true, runValidators: true }
+            { new: true }
         )
         .then(dbUserData => {
             if (!dbUserData) {
