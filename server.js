@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhose/wild-dunes', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/wild-dunes', {
     // useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true
